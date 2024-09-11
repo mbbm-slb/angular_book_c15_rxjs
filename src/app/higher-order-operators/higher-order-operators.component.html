@@ -1,3 +1,14 @@
 <p>from: <a href="https://ahmedrebai.medium.com/rxjs-heaven-part3-higher-order-operators-5909d3facab4" target="_blank">Rxjs Heaven (Part3: Higher-order operators )</a></p>
 
 <h2>Higher-order Operators</h2>
+
+<h3>1. concatMap Operator</h3>
+<pre>
+    <code>
+        console.clear();
+        const ajax$ = ajax('https://api.github.com/users?per_page=2')
+        ajax$.subscribe(v => console.log(v))
+    </code>
+</pre>
+<button (click)="start_3_1()">Start</button>
+<hr>
