@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
-import { of } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { of, interval } from 'rxjs';
 
 @Component({
   selector: 'dr-intro',
@@ -8,12 +9,41 @@ import { of } from 'rxjs';
   styleUrl: './intro.component.css'
 })
 export class IntroComponent {
+  sub1?: Subscription;
+  sub2?: Subscription;
 
   start_1_1() {
     const numbers$ = of(1,2,3)
     numbers$.subscribe(v => console.log(v))
     numbers$.subscribe(myObserver)
     numbers$.subscribe(new MyObserver('obs1: '));
+  }
+
+  start_1_2() {
+    console.clear();
+    const timer1$ = interval(500)
+    this.sub1 = timer1$.subscribe(v => console.log('sub1:' + v))
+    this.sub2 = timer1$.subscribe(v => console.log('sub2:' + v))
+    setTimeout(() => {
+      if (this.sub2) {
+        this.sub2.unsubscribe();
+      }
+    }, 6100);
+  }
+
+  stop_1_2() {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.sub1) {
+      this.sub1.unsubscribe();
+    }
+    if (this.sub2) {
+      this.sub2.unsubscribe();
+    }
   }
 }
 
