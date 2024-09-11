@@ -1,22 +1,77 @@
-<p>from: <a href="https://ahmedrebai.medium.com/rxjs-heaven-part3-higher-order-operators-5909d3facab4" target="_blank">Rxjs Heaven (Part3: Higher-order operators )</a></p>
+<p>see: <a href="https://blog.angular-university.io/rxjs-higher-order-mapping/" target="_blank">Comprehensive Guide to Higher-Order RxJs Mapping Operators: switchMap, mergeMap, concatMap (and exhaustMap)</a></p>
+<p>see also: <a href="https://ahmedrebai.medium.com/rxjs-heaven-part3-higher-order-operators-5909d3facab4" target="_blank">Rxjs Heaven (Part3: Higher-order operators )</a></p>
 
 <h2>Higher-order Operators</h2>
+<p>Higher-order mapping operators are used to map values from the source observable into inner observables, and they emit the values from the inner observables in a specific way.</p>
+<p>Why? To avoid the nested subscription anti-pattern, which can lead to memory leaks and other issues!</p>
 
 <h3>1. concatMap Operator</h3>
+<p>The `concatMap` operator is used to map values from the source observable into inner observables, and it emits the values from the inner observable in a sequential order. It waits for the previous inner observable to complete before moving on to the next one.</p>
 <pre>
     <code>
-        console.clear();
-        const ajax$ = ajax('https://api.github.com/users?per_page=2')
-        ajax$.subscribe(v => console.log(v))
+        //emit delay value
+        const source = of(2000, 1000, 500, 3000);
+        // map value from source into inner observable, when complete emit result and move to next
+        const example = source.pipe(
+          concatMap(val => of(`Delayed by: $&#123;val&#125;ms`).pipe(delay(val)))
+        );
+        //output: With concatMap: Delayed by: 2000ms, With concatMap: Delayed by: 1000ms
+        const subscribe = example.subscribe(val =>
+          console.log(`With concatMap: $&#123;val&#125;`)
+        );
     </code>
 </pre>
 <button (click)="start_3_1()">Start</button>
 <hr>
 <h3>2. switchMap Operator</h3>
+<p>The `switchMap` operator is used to switch to a new observable whenever a new value is emitted from the source observable. It cancels the previous inner observable if it was still in progress when a new emission occurs.</p>
 <pre>
     <code>
-
+        // first observable that emits random intervals
+        const randomInterval$ = new Observable&lt;number&gt;((observer) =&gt; &#123;
+          const emitValue = () =&gt; &#123;
+            const delay = Math.floor(Math.random() * (10000 - 3000 + 1)) + 3000;
+            observer.next(delay / 1000); // Emit the interval in seconds
+            setTimeout(emitValue, delay);
+          &#125;;
+          emitValue();
+        &#125;);
+    
+        // second observable that emits a value every 300ms and is restarted by the first observable
+        const switchInterval$ = randomInterval$.pipe(switchMap(() =&gt; interval(300))); 
+    
+        this.subscribeWithTimeout&lt;number&gt;(
+          switchInterval$,
+          (value: number) =&gt; console.log('value:', value),
+          30000
+        );
     </code>
 </pre>
 <button (click)="start_3_2()">Start</button>
+<hr>
+<h3>3. mergeMap Operator</h3>
+<p>The `mergeMap` operator allows multiple inner observables to run concurrently, and it merges their emissions into a single observable stream. This operator is handy when you want to perform multiple asynchronous tasks and combine their results.</p>
+<pre>
+    <code>
+        // first observable that emits random intervals
+        const randomInterval$ = new Observable&lt;number&gt;((observer) =&gt; &#123;
+          const emitValue = () =&gt; &#123;
+            const delay = Math.floor(Math.random() * (10000 - 3000 + 1)) + 3000;
+            observer.next(delay / 1000); // Emit the interval in seconds
+            setTimeout(emitValue, delay);
+          &#125;;
+          emitValue();
+        &#125;);
+    
+        // second observable that emits a value every 300ms and is restarted by the first observable
+        const switchInterval$ = randomInterval$.pipe(mergeMap(() =&gt; interval(300))); 
+    
+        this.subscribeWithTimeout&lt;number&gt;(
+          switchInterval$,
+          (value: number) =&gt; console.log('value:', value),
+          30000
+        );
+    </code>
+</pre>
+<button (click)="start_3_3()">Start</button>
 <hr>
