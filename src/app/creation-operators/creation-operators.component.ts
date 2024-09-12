@@ -60,8 +60,8 @@ export class CreationOperatorsComponent {
 
   start_2_5() {
     console.clear();
-    const numbers$ = from('Hello World!')
-    numbers$.subscribe(new MyObserver('from: '))
+    const letters$ = from('Hello World!')
+    letters$.subscribe(new MyObserver('from: '))
   }
 
   start_2_6() {
