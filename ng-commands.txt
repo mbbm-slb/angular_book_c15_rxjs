@@ -1,0 +1,15 @@
+create new project (see book S. 58):
+IMPORTANT: without "--no-standalone" you get no app.module.ts file
+
+ng new demo-rxjs --routing --style=css --prefix=dr --no-standalone
+
+
+ng g component Intro
+
+ng g component CreationOperators
+
+ng g component HigherOrderOperators
+
+ng g component CombinationOperators
+
+ng g component TransformationOperators
