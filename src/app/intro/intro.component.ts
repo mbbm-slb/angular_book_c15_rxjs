@@ -13,6 +13,7 @@ export class IntroComponent {
   sub2?: Subscription;
 
   start_1_1() {
+    console.clear();
     const numbers$ = of(1,2,3)
     numbers$.subscribe(v => console.log(v))
     numbers$.subscribe(myObserver)
