@@ -1,0 +1,77 @@
+<h2>Combination Operators</h2>
+
+<h3>1. merge</h3>
+<pre>
+    <code>
+        const numbers$ = new Observable&lt;number&gt;((observer) =&gt; &#123;
+            const emitValue = (seq: number) =&gt; &#123;
+              seq++;
+              const delay = 500;
+              if (seq &lt; 10) &#123;
+                observer.next(seq);
+              setTimeout(emitValue, delay, seq);
+              &#125; else &#123;
+                observer.complete();
+              &#125;
+            &#125;;
+            emitValue(0);
+          &#125;);
+          const letters$ = new Observable&lt;string&gt;((observer) =&gt; &#123;
+            const letters = 'ABCDEFGHIJ'.split('');
+            const emitValue = (seq: number) =&gt; &#123;
+              seq++;
+              const delay = 500;
+              if (seq &lt; letters.length) &#123;
+                observer.next(letters[seq]);
+                setTimeout(emitValue, delay, seq);
+              &#125; else &#123;
+                observer.complete();
+              &#125;
+            &#125;;
+            emitValue(0);
+          &#125;);
+      
+          const merged$ = merge(numbers$, letters$)
+          merged$.subscribe(v =&gt; console.log(v))
+    </code>
+</pre>
+<button (click)="start_1()">Start</button>
+<button (click)="start_1_1()">Start (without delay)</button>
+<hr>
+<h3>2. concat</h3>
+<pre>
+    <code>
+        const numbers$ = new Observable&lt;number&gt;((observer) =&gt; &#123;
+            const emitValue = (seq: number) =&gt; &#123;
+              seq++;
+              const delay = 500;
+              if (seq &lt; 10) &#123;
+                observer.next(seq);
+              setTimeout(emitValue, delay, seq);
+              &#125; else &#123;
+                observer.complete();
+              &#125;
+            &#125;;
+            emitValue(0);
+          &#125;);
+          const letters$ = new Observable&lt;string&gt;((observer) =&gt; &#123;
+            const letters = 'ABCDEFGHIJ'.split('');
+            const emitValue = (seq: number) =&gt; &#123;
+              seq++;
+              const delay = 500;
+              if (seq &lt; letters.length) &#123;
+                observer.next(letters[seq]);
+                setTimeout(emitValue, delay, seq);
+              &#125; else &#123;
+                observer.complete();
+              &#125;
+            &#125;;
+            emitValue(0);
+          &#125;);
+      
+          const merged$ = concat(numbers$, letters$)
+          merged$.subscribe(v =&gt; console.log(v))
+    </code>
+</pre>
+<button (click)="start_2()">Start</button>
+<hr>

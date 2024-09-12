@@ -1,0 +1,15 @@
+<h2>Transformation Operators</h2>
+
+<h3>1. map</h3>
+<pre>
+    <code>
+        console.clear();
+        const mappedNumbers$ = range(1, 10).pipe(
+          map(value => value * 2) // Use the map operator to multiply each value by 2
+        );
+    
+        mappedNumbers$.subscribe(value => console.log(value));
+    </code>
+</pre>
+<button (click)="start_1()">Start</button>
+<hr>

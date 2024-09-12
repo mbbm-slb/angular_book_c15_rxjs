@@ -1,0 +1,150 @@
+<h2>Generation Operators</h2>
+
+<h3>1. ajax</h3>
+<pre>
+    <code>
+        console.clear();
+        const ajax$ = ajax('https://api.github.com/users?per_page=2')
+        ajax$.subscribe(v => console.log(v))
+    </code>
+</pre>
+<button (click)="start_2_1()">Start</button>
+<hr>
+<h3>2. create (deprecated)</h3>
+<pre>
+    <code>
+        console.clear();
+        const germanFirstNames = [
+          "Anna", "Ben", "Clara", "Elias", "Emma", "Felix", "Finn", "Hannah",
+          "Jonas", "Lara", "Lea", "Leon", "Lina", "Lukas", "Marie", "Maximilian",
+          "Mia", "Noah", "Paul", "Sophia"
+        ];
+        
+        let index = 0;
+        
+        const names$ = Observable.create(function(observer :any) &#123;
+          const interval = setInterval(() => &#123;
+            observer.next(germanFirstNames[index]);
+            index = (index + 1) % germanFirstNames.length; // Reset index if end is reached
+          &#125;, 300);
+        
+          return () => clearInterval(interval);
+        &#125;);
+        this.subscribeWithTimeout(names$, new MyObserver('create: '), 6000);
+    </code>
+</pre>
+<button (click)="start_2_2()">Start</button>
+<hr>
+<h3>3. defer</h3>
+<pre>
+    <code>
+        console.clear();
+        const s1 = of(new Date()); //will capture current date time
+        const s2 = defer(() => of(new Date())); //will capture date time at the moment of subscription
+      
+        console.log(new Date());
+      
+        timer(2000)
+          .pipe(
+            switchMap(_ => merge(s1, s2))
+          ).subscribe(new MyObserver('defer: '));
+    </code>
+</pre>
+<button (click)="start_2_3()">Start</button>
+<hr>
+<h3>4. empty (deprecated)</h3>
+<pre>
+    <code>
+        console.clear();
+        //const subscribe = empty().subscribe(new MyObserver('empty: '));
+        // since empty is deprecated an empty "of" does the trick
+        const subscribe = of().subscribe(new MyObserver('empty: '));
+    </code>
+</pre>
+<button (click)="start_2_4()">Start</button>
+<hr>
+<h3>5. from</h3>
+<pre>
+    <code>
+        console.clear();
+        const letters$ = from('Hello World!')
+        letters$.subscribe(new MyObserver('from: '))
+    </code>
+</pre>
+<button (click)="start_2_5()">Start</button>
+<hr>
+<h3>6. fromEvent</h3>
+<pre>
+    <code>
+        const button3_1_6 = document.getElementById('startBtn3_1_6');
+        const button3_1_6Click$ = fromEvent(button3_1_6, 'click')
+        button3_1_6Click$.subscribe(new MyObserver('fromEvent: '))
+    </code>
+</pre>
+<button (click)="start_2_5()" disabled>Start (disabled, does not work)</button>
+<hr>
+<h3>7. generate</h3>
+<pre>
+    <code>
+        console.clear();
+        const generate$ = generate(
+          2,
+          x =&gt; x &lt;= 38,
+          x =&gt; x + 3,
+          x =&gt; '.'.repeat(x)
+        );
+        generate$.subscribe(new MyObserver('generate: '))
+    </code>
+</pre>
+<button (click)="start_2_7()">Start</button>
+<hr>
+<h3>8. interval</h3>
+<pre>
+    <code>
+        console.clear();
+        const timer1$ = interval(500)
+        this.subscribeWithTimeout(timer1$, new MyObserver('interval: '), 6000);
+    </code>
+</pre>
+<button (click)="start_2_8()">Start</button>
+<hr>
+<h3>9. of</h3>
+<pre>
+    <code>
+        console.clear();
+        const numbers$ = of(1,2,3)
+        numbers$.subscribe(new MyObserver('of: '))
+    </code>
+</pre>
+<button (click)="start_2_9()">Start</button>
+<hr>
+<h3>10. range</h3>
+<pre>
+    <code>
+        console.clear();
+        const numbers$ = range(1, 10)
+        numbers$.subscribe(new MyObserver('range: '))
+    </code>
+</pre>
+<button (click)="start_2_10()">Start</button>
+<hr>
+<h3>11. throwError (deprecated)</h3>
+<pre>
+    <code>
+        console.clear();
+        const error$ = throwError('This is an error!')
+        error$.subscribe(new MyObserver('throw: '))
+    </code>
+</pre>
+<button (click)="start_2_11()">Start</button>
+<hr>
+<h3>12. timer</h3>
+<pre>
+    <code>
+        console.clear();
+        const timer1$ = timer(1000, 2000)
+        this.subscribeWithTimeout(timer1$, new MyObserver('timer: '), 5100);
+    </code>
+</pre>
+<button (click)="start_2_12()">Start</button>
+<hr>

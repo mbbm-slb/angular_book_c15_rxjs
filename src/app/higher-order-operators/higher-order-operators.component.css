@@ -1,0 +1,4 @@
+p {
+    max-width: 700px; /* Set the maximum width */
+    word-wrap: break-word; /* Ensure long words break to fit within the max width */
+  }

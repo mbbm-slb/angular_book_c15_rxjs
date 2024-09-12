@@ -1,0 +1,1 @@
+nach dem clonen des repository "npm install" in der commandline ausfüren, damit ng commands (ng serve, ng build, ...) zur Verfügung stehen!

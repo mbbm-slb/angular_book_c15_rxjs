@@ -1,0 +1,38 @@
+<h2>Intro Recap</h2>
+
+<p>see also: <a href="https://stackblitz.com/edit/rxjs-sushi-marhbp?file=index.ts,index.html" target="_blank">Stackblitz</a></p>
+
+<h3>1. A simple Observable-Observer Demo</h3>
+<pre>
+    <code>
+        const numbers$ = of(1,2,3)
+        numbers$.subscribe(v => console.log(v))
+        numbers$.subscribe(myObserver)
+        numbers$.subscribe(new MyObserver('obs1: '));
+    </code>
+</pre>
+<button (click)="start_1_1()">Start</button>
+
+<h3>2. Subscribe and unsubscribe</h3>
+<pre>
+    <code>
+        console.clear();
+        const timer1$ = interval(500)
+        this.sub1 = timer1$.subscribe(v => console.log('sub1:' + v))
+        this.sub2 = timer1$.subscribe(v => console.log('sub2:' + v))
+        setTimeout(() => &#123;
+        if (this.sub2) &#123;
+            this.sub2.unsubscribe();
+            &#125;
+        &#125;, 2000)
+    </code>
+</pre>
+<button (click)="start_1_2()">Start</button>
+<pre>
+    <code>
+        if (this.sub2) &#123;
+            this.sub2.unsubscribe();
+            &#125;
+    </code>
+</pre>
+<button (click)="stop_1_2()">Stop</button>
