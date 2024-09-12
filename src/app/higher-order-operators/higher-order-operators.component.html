@@ -48,6 +48,7 @@
     </code>
 </pre>
 <button (click)="start_3_2()">Start</button>
+<button (click)="start_3_2_1()">Start with value mapping</button>
 <hr>
 <h3>3. mergeMap Operator</h3>
 <p>The `mergeMap` operator allows multiple inner observables to run concurrently, and it merges their emissions into a single observable stream. This operator is handy when you want to perform multiple asynchronous tasks and combine their results.</p>
@@ -74,4 +75,39 @@
     </code>
 </pre>
 <button (click)="start_3_3()">Start</button>
+<hr>
+<h3>4. exhaustMap Operator</h3>
+<p>The `exhaustMap` (“don’t interrupt me” ) operator is used to ignore new values from the source observable while the inner observable is still running. It waits for the inner observable to complete before allowing new values to be emitted from the source observable.</p>
+<pre>
+    <code>
+      // first observable that emits determined intervals
+      const determinedInterval$ = new Observable&lt;number&gt;((observer) =&gt; &#123;
+        const delays = [1, 2, 3, 4, 8, 16, 32, 64, 128, 256];
+        const emitValue = (seq: number) =&gt; &#123;
+          seq++;
+          const delay = delays[seq % 4] * 200;
+          observer.next(seq); // Emit the interval in seconds
+          setTimeout(emitValue, delay, seq);
+        &#125;;
+        emitValue(0);
+      &#125;);
+  
+      // second observable that emits a value every 300ms and is restarted by the first observable
+      const switchInterval$: Observable&lt;number&gt; = determinedInterval$.pipe(
+        exhaustMap((outerValue: number): Observable&lt;number&gt; =&gt; 
+          interval(100).pipe(
+          take(10), // Take only the first 20 values
+          map((innerValue: number): number =&gt; innerValue + (outerValue * 100)) // add outer value multiplied by 100 to inner value
+        )
+        )
+      );
+  
+      this.subscribeWithTimeout&lt;number&gt;(
+        switchInterval$,
+        (value: number) =&gt; console.log('value:', value),
+        30000
+      );
+    </code>
+</pre>
+<button (click)="start_3_4()">Start</button>
 <hr>
