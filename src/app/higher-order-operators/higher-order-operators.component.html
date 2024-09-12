@@ -48,6 +48,7 @@
     </code>
 </pre>
 <button (click)="start_3_2()">Start</button>
+<button (click)="start_3_2_1()">Start with value mapping</button>
 <hr>
 <h3>3. mergeMap Operator</h3>
 <p>The `mergeMap` operator allows multiple inner observables to run concurrently, and it merges their emissions into a single observable stream. This operator is handy when you want to perform multiple asynchronous tasks and combine their results.</p>
@@ -74,6 +75,7 @@
     </code>
 </pre>
 <button (click)="start_3_3()">Start</button>
+<button (click)="start_3_3_1()">Start with value mapping</button>
 <hr>
 <h3>4. exhaustMap Operator</h3>
 <p>The `exhaustMap` (“don’t interrupt me” ) operator is used to ignore new values from the source observable while the inner observable is still running. It waits for the inner observable to complete before allowing new values to be emitted from the source observable.</p>

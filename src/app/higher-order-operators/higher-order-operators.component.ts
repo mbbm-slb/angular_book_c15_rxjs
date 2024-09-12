@@ -66,6 +66,36 @@ export class HigherOrderOperatorsComponent {
     // );
   }
 
+  start_3_2_1() {
+    console.clear();
+
+    // first observable that emits random intervals
+    const randomInterval$ = new Observable<number>((observer) => {
+      const emitValue = (seq: number) => {
+        seq++;
+        const delay = Math.floor(Math.random() * (10000 - 3000 + 1)) + 3000;
+        observer.next(seq); // Emit the interval in seconds
+        setTimeout(emitValue, delay, seq);
+      };
+      emitValue(0);
+    });
+
+    // second observable that emits a value every 300ms and is restarted by the first observable
+    const switchInterval$: Observable<number> = randomInterval$.pipe(
+      switchMap((outerValue: number): Observable<number> => 
+      interval(300).pipe(
+        map((innerValue: number): number => innerValue + (outerValue * 100)) // add outer value multiplied by 100 to inner value
+      )
+      )
+    );
+
+    this.subscribeWithTimeout<number>(
+      switchInterval$,
+      (value: number) => console.log('value:', value),
+      30000
+    );
+  }
+
   start_3_3() {
     console.clear();
 
@@ -81,6 +111,36 @@ export class HigherOrderOperatorsComponent {
 
     // second observable that emits a value every 300ms and is restarted by the first observable
     const switchInterval$ = randomInterval$.pipe(mergeMap(() => interval(300))); 
+
+    this.subscribeWithTimeout<number>(
+      switchInterval$,
+      (value: number) => console.log('value:', value),
+      30000
+    );
+  }
+
+  start_3_3_1() {
+    console.clear();
+
+    // first observable that emits random intervals
+    const randomInterval$ = new Observable<number>((observer) => {
+      const emitValue = (seq: number) => {
+        seq++;
+        const delay = Math.floor(Math.random() * (10000 - 3000 + 1)) + 3000;
+        observer.next(seq); // Emit the interval in seconds
+        setTimeout(emitValue, delay, seq);
+      };
+      emitValue(0);
+    });
+
+    // second observable that emits a value every 300ms and is restarted by the first observable
+    const switchInterval$: Observable<number> = randomInterval$.pipe(
+      mergeMap((outerValue: number): Observable<number> => 
+      interval(300).pipe(
+        map((innerValue: number): number => innerValue + (outerValue * 100)) // add outer value multiplied by 100 to inner value
+      )
+      )
+    );
 
     this.subscribeWithTimeout<number>(
       switchInterval$,
