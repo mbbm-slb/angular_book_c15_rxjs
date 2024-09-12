@@ -1,2 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'book-monkey5-styles/styles.css';
+pre {
+    background-color: #f4f4f4;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    padding: 20px;
+    border-left: 3px solid #f36d33;
+    color: #333;
+    border-radius: 5px;
+}   
