@@ -7,6 +7,7 @@ import { IntroComponent } from './intro/intro.component';
 import { CreationOperatorsComponent } from './creation-operators/creation-operators.component';
 import { HigherOrderOperatorsComponent } from './higher-order-operators/higher-order-operators.component';
 import { CombinationOperatorsComponent } from './combination-operators/combination-operators.component';
+import { TransformationOperatorsComponent } from './transformation-operators/transformation-operators.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { CombinationOperatorsComponent } from './combination-operators/combinati
     IntroComponent,
     CreationOperatorsComponent,
     HigherOrderOperatorsComponent,
-    CombinationOperatorsComponent
+    CombinationOperatorsComponent,
+    TransformationOperatorsComponent
   ],
   imports: [
     BrowserModule,
